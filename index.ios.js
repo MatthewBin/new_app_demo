@@ -13,5 +13,6 @@ import {
 } from 'react-native';
 
 import RootPage from 'RootPage';
+import RNStorage from 'ReactNativeStorage';
 
 AppRegistry.registerComponent('new_app_demo', () => RootPage);
