@@ -20,6 +20,34 @@ export default class LoginPage extends Component{
         super(props);
     }
 
+    componentDidMount() {
+        let request = 'http://192.168.1.34:4096/api/test/get_list';
+        let bodyObj = {name: 'xxx', pwd: 'xxx'};
+        fetch(request, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                // 'Timeout':5
+            },
+            body: JSON.stringify(bodyObj)
+        }).then((response) => {
+            console.log('--------1--------');
+            console.log(response);
+            if (response.ok) {
+                return response.json();
+            } else {
+
+            }
+        }).then((responseJson) => {
+            console.log('--------2--------');
+            console.log(responseJson);
+        }).catch((err) => {
+            console.log('--------3--------');
+            console.log(err);
+        })
+    }
+
     render(){
         return(
             <View style={[styles.container]}>
