@@ -31,9 +31,7 @@ export default class NavigationPage extends Component{
 
     render(){
         return(
-            <View style={[styles.container]}>
-                <MTabNavigator/>
-            </View>
+            <MTabNavigator/>
         );
     }
 }

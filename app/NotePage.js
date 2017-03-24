@@ -14,13 +14,18 @@ import {
     TextInput,
     Button,
     StyleSheet,
-    ToastAndroid
+    ToastAndroid,
+    ListView
 }from 'react-native';
 
 export default class NotePage extends Component {
     constructor(props) {
         super(props);
         this.state = {txt: '默认值'};
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+        };
     }
 
     componentDidMount() {
@@ -80,15 +85,41 @@ export default class NotePage extends Component {
         ToastAndroid.show('保存成功', ToastAndroid.SHORT);
     }
 
+    add(){
+
+    }
+
+    query(){
+
+    }
+
     render() {
         return (
             <View style={[styles.container]}>
-                <Text style={[styles.text]}>笔记页</Text>
-                <TextInput style={{height: 40, width: 200}}
-                           value={this.state.txt}
-                           onChangeText={(txt) => this.setState({txt})}/>
-                <Text>{this.state.txt}</Text>
-                <Button onPress={this.save.bind(this)} title='保存'/>
+                <View style={[styles.row]}>
+                    <Text>No.</Text>
+                    <TextInput style={{flex:1}} value={this.state.no}
+                               onChangeText={(txt) => this.setState({no:txt})}/>
+                    <Text>Pwd</Text>
+                    <TextInput style={{flex:1}} value={this.state.pwd}
+                               onChangeText={(txt) => this.setState({pwd:txt})}/>
+                    <Button title='添加' onPress={this.add.bind(this)}/>
+                </View>
+                <View style={[styles.row]}>
+                    <Text>No.</Text>
+                    <TextInput style={{flex:1}} value={this.state.no_query}
+                               onChangeText={(txt) => this.setState({no_query:txt})}/>
+                    <Text>Pwd</Text>
+                    <TextInput style={{flex:1}} value={this.state.pwd_query}
+                               editable={false}
+                               onChangeText={(txt) => this.setState({pwd:txt})}/>
+                    <Button title='查询' onPress={this.query.bind(this)}/>
+                </View>
+
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData) => <Text>{rowData}</Text>}
+                />
             </View>
         );
     }
@@ -100,6 +131,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#CCC',
+        padding:10
+    },
+    row:{
+      flexDirection:'row',
+        alignItems:'center',
+        padding:5
     },
     text: {
         color: '#520',

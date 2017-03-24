@@ -12,7 +12,8 @@ import React, {Component}from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Button
 }from 'react-native';
 
 export default class LoginPage extends Component{
@@ -27,12 +28,10 @@ export default class LoginPage extends Component{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                // 'Timeout':5
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(bodyObj)
         }).then((response) => {
-            console.log('--------1--------');
             console.log(response);
             if (response.ok) {
                 return response.json();
@@ -40,18 +39,21 @@ export default class LoginPage extends Component{
 
             }
         }).then((responseJson) => {
-            console.log('--------2--------');
             console.log(responseJson);
         }).catch((err) => {
-            console.log('--------3--------');
             console.log(err);
         })
     }
 
     render(){
+        const { navigate } = this.props.navigation;
         return(
             <View style={[styles.container]}>
                 <Text style={[styles.text]}>登录页</Text>
+                <Button
+                    onPress={() => navigate('Register', { user: 'Lucy' })}
+                    title="跳转"
+                />
             </View>
         );
     }

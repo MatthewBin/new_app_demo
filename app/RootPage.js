@@ -17,9 +17,10 @@ import {
 import NavigationPage from 'NavigationPage';
 import NetInfoPage from 'NetInfoPage';
 import NotePage from 'NotePage';
-import { TabNavigator } from 'react-navigation';
+import JoinFamilyPage from 'JoinFamilyPage';
+import { StackNavigator } from 'react-navigation';
 
-const RootTabNavigator = TabNavigator({
+const RootTabNavigator = StackNavigator({
     NavigationPage:{screen:NavigationPage},
     Note: {screen: NotePage},
     NetInfo: {screen: NetInfoPage},
@@ -32,10 +33,12 @@ export default class RootPage extends Component{
 
     render(){
         return(
-            <View style={[styles.container]}>
-                {/*<NavigationPage/>*/}
-                <RootTabNavigator/>
-            </View>
+            <NotePage/>
+            // {/*<RootTabNavigator/>*/}
+            // <View style={[styles.container]}>
+            //     {/*<NavigationPage/>*/}
+            //
+            // </View>
         );
     }
 }
