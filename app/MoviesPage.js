@@ -13,6 +13,7 @@ import {
     Text,
     StyleSheet
 }from 'react-native';
+import VideoPlyer from 'VideoPlayer';
 
 export default class MoviesPage extends Component{
     constructor(props){
@@ -23,6 +24,7 @@ export default class MoviesPage extends Component{
         return(
             <View style={[styles.container]}>
                 <Text style={[styles.text]}>电影页</Text>
+                <VideoPlyer/>
             </View>
         );
     }

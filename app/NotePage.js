@@ -15,8 +15,11 @@ import {
     Button,
     StyleSheet,
     ToastAndroid,
-    ListView
+    ListView,
+    Keyboard
 }from 'react-native';
+
+import {NumberTextInput} from 'NumberTextInput';
 
 export default class NotePage extends Component {
     constructor(props) {
@@ -24,13 +27,18 @@ export default class NotePage extends Component {
         this.state = {txt: '默认值'};
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+            no: null,
+            pwd: null,
+            no_query: null,
+            pwd_query: null,
+            notes: [],
+            dataSource: ds.cloneWithRows([{no:'aaaa',pwd:'test'},{no:'sss',pwd:'ssc'}]),
         };
     }
 
     componentDidMount() {
         storage.load({
-            key: 'test',
+            key: 'notes',
 
             // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
             autoSync: true,
@@ -54,8 +62,10 @@ export default class NotePage extends Component {
             // 而不能在then以外处理
             // 也没有办法“变成”同步返回
             // 你也可以使用“看似”同步的async/await语法
-
-            this.setState({txt: ret});
+            this.setState(prevState => ({
+                dataSource: prevState.dataSource.cloneWithRows(ret),
+                notes: ret
+            }));
         }).catch(err => {
             //如果没有找到数据且没有sync方法，
             //或者有其他异常，则在catch中返回
@@ -71,54 +81,91 @@ export default class NotePage extends Component {
         })
     }
 
-    save() {
+    save(key, data) {
         // 使用key来保存数据。这些数据一般是全局独有的，常常需要调用的。
         // 除非你手动移除，这些数据会被永久保存，而且默认不会过期。
         storage.save({
-            key: 'test',  // 注意:请不要在key中使用_下划线符号!
-            rawData: this.state.txt,
+            key: key,  // 注意:请不要在key中使用_下划线符号!
+            rawData: data,
 
             // 如果不指定过期时间，则会使用defaultExpires参数
             // 如果设为null，则永不过期
             expires: null
         });
+        this.setState(prevState => ({
+            dataSource: prevState.dataSource.cloneWithRows(data)
+        }));
         ToastAndroid.show('保存成功', ToastAndroid.SHORT);
     }
 
-    add(){
-
+    add() {
+        Keyboard.dismiss();
+        if(!this.state.no|| !this.state.pwd){
+            ToastAndroid.show('不能为空', ToastAndroid.SHORT);
+            return;
+        }
+        this.state.notes.push({no: this.state.no, pwd: this.state.pwd});
+        this.save('notes', this.state.notes);
     }
 
-    query(){
-
+    query() {
+        Keyboard.dismiss();
+        this.setState({
+            pwd_query: null
+        });
+        for (let note of this.state.notes) {
+            if (note.no == this.state.no_query) {
+                this.setState({
+                    pwd_query: note.pwd
+                });
+                ToastAndroid.show('密码：'+note.pwd, ToastAndroid.SHORT);
+                return;
+            }
+        }
+        this.setState({
+            pwd_query: 'ㄒoㄒ~~'
+        });
+        ToastAndroid.show('没有数据', ToastAndroid.SHORT);
     }
 
     render() {
         return (
             <View style={[styles.container]}>
                 <View style={[styles.row]}>
-                    <Text>No.</Text>
-                    <TextInput style={{flex:1}} value={this.state.no}
-                               onChangeText={(txt) => this.setState({no:txt})}/>
-                    <Text>Pwd</Text>
-                    <TextInput style={{flex:1}} value={this.state.pwd}
-                               onChangeText={(txt) => this.setState({pwd:txt})}/>
+                    <Text style={[styles.text]}>No.</Text>
+                    <NumberTextInput value={this.state.no}
+                               placeholder='车牌号'
+                               onChangeText={(txt) => this.setState({no: txt})}/>
+                    <Text style={[styles.text]}>Pwd</Text>
+                    <NumberTextInput value={this.state.pwd}
+                               placeholder='密码'
+                               onChangeText={(txt) => this.setState({pwd: txt})}/>
                     <Button title='添加' onPress={this.add.bind(this)}/>
                 </View>
                 <View style={[styles.row]}>
-                    <Text>No.</Text>
-                    <TextInput style={{flex:1}} value={this.state.no_query}
-                               onChangeText={(txt) => this.setState({no_query:txt})}/>
-                    <Text>Pwd</Text>
-                    <TextInput style={{flex:1}} value={this.state.pwd_query}
+                    <Text style={[styles.text]}>No.</Text>
+                    <NumberTextInput value={this.state.no_query}
+                               placeholder='车牌号'
+                               onChangeText={(txt) => this.setState({no_query: txt})}/>
+                    <Text style={[styles.text]}>Pwd</Text>
+                    <NumberTextInput value={this.state.pwd_query}
                                editable={false}
-                               onChangeText={(txt) => this.setState({pwd:txt})}/>
+                               placeholder='查询结果'
+                               onChangeText={(txt) => this.setState({pwd: txt})}/>
                     <Button title='查询' onPress={this.query.bind(this)}/>
                 </View>
 
                 <ListView
+                    enableEmptySections={true}
                     dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <Text>{rowData}</Text>}
+                    renderRow={(rowData) =>
+                        <View style={[styles.row, {padding: 1,justifyContent:'space-between',backgroundColor:'#666'}]}>
+                            <Text style={[styles.item_name]}>NO.:</Text>
+                            <Text style={[styles.item_text]}>{rowData.pwd}</Text>
+                            <Text style={[styles.item_name]}>密码</Text>
+                            <Text style={[styles.item_text]}>{rowData.pwd}</Text>
+                        </View>
+                    }
                 />
             </View>
         );
@@ -129,16 +176,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#CCC',
-        padding:10
+        backgroundColor: '#333',
+        padding: 10,
     },
-    row:{
-      flexDirection:'row',
-        alignItems:'center',
-        padding:5
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 5
     },
     text: {
-        color: '#520',
+        fontSize:18,
+        color: '#FFF',
+    },
+    item_text: {
+        fontSize:16,
+        flex:1,
+        textAlign:'left',
+        color:'#0F0'
+    },
+    item_name: {
+        fontSize:16,
+        marginHorizontal:9,
+        textAlign:'left',
+        color:'#eee'
     }
 });

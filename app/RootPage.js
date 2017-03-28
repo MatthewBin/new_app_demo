@@ -18,7 +18,9 @@ import NavigationPage from 'NavigationPage';
 import NetInfoPage from 'NetInfoPage';
 import NotePage from 'NotePage';
 import JoinFamilyPage from 'JoinFamilyPage';
+import MoviesPage from 'MoviesPage';
 import { StackNavigator } from 'react-navigation';
+import VideoTest from 'VideoTest';
 
 const RootTabNavigator = StackNavigator({
     NavigationPage:{screen:NavigationPage},
@@ -33,7 +35,7 @@ export default class RootPage extends Component{
 
     render(){
         return(
-            <NotePage/>
+            <VideoTest/>
             // {/*<RootTabNavigator/>*/}
             // <View style={[styles.container]}>
             //     {/*<NavigationPage/>*/}

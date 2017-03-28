@@ -8,6 +8,10 @@
 
 'use strict'
 
+import {
+    Dimensions,
+} from 'react-native';
+
 const Utils = {};
 
 Utils.postFetch = function (url, body, successCallback, errorCallback) {
@@ -45,5 +49,9 @@ Utils.postFetch = function (url, body, successCallback, errorCallback) {
     });
 
 };
+
+export const ScreenWidth = Dimensions.get('window').width;
+
+export const ScreenHeight = Dimensions.get('window').height;
 
 export {Utils};
