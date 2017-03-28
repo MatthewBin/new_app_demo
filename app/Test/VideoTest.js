@@ -38,8 +38,6 @@ export default class VideoTest extends Component {
     }
 
     render() {
-        // source={require('./app/test.mp4')}
-        // source={{uri: "./app/test.mp4"}}
         return (
             <View style={{backgroundColor:'lightblue',justifyContent: 'flex-start'}}>
                 <Video source={{uri:'http://dscj-test.oss-cn-hangzhou.aliyuncs.com/video_640/test-demo-min.mp4'}} // 视频的URL地址，或者本地地址，都可以.
