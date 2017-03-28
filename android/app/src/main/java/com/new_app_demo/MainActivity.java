@@ -3,6 +3,8 @@ package com.new_app_demo;
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.Intent; // <--- import
+import android.content.res.Configuration; // <--- import
 
 public class MainActivity extends ReactActivity {
 
