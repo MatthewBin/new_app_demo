@@ -1,10 +1,7 @@
 /**
  * Created by maxiaobin on 17/3/28.
- */
-
-/*
  * @providesModule VideoTest
- * */
+ */
 'use strict'
 
 import React, {Component}from 'react';
@@ -30,7 +27,7 @@ export default class VideoTest extends Component {
             manual: false,
             manual_value: 0,
             paused: false,
-            source:{uri: 'http://192.168.1.24:4096/media/test.mp4'}
+            source:{uri: 'http://192.168.1.23:4096/movies/1.mp4'}
         };
     }
 

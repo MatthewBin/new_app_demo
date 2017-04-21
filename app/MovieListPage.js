@@ -1,10 +1,7 @@
 /**
- * Created by maxiaobin on 17/3/23.
+ * Created by maxiaobin on 17/4/21.
+ * @providesModule MovieListPage
  */
-/*
-* @providesModule MoviesPage
-* 电影页
-* */
 'use strict'
 
 import React, {Component}from 'react';
@@ -16,17 +13,9 @@ import {
     TouchableOpacity,
     Alert
 }from 'react-native';
-import VideoPlyer from 'VideoPlayer';
 import * as Utils from 'Utils';
 
-export default class MoviesPage extends Component{
-    static navigationOptions = {
-        title: '电影页',
-        header: {
-            visible: true,
-        },
-    }
-
+export default class MovieListPage extends Component{
     constructor(props){
         super(props);
         let ds = new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2});
@@ -36,8 +25,7 @@ export default class MoviesPage extends Component{
     }
 
     componentDidMount(){
-        console.log('---')
-        Utils.Utils.postFetch('http://192.168.1.23:4096/api/movie/get_list',{},(success)=>{
+        Utils.Utils.postFetch('http://192.168.1.23:4096/api/movie/get_movie_list',{movie_name:'movies'},(success)=>{
             this.setState(prevState => ({
                 dataSource: prevState.dataSource.cloneWithRows(success.msg)
             }));
@@ -49,10 +37,7 @@ export default class MoviesPage extends Component{
     render(){
         return(
             <View style={[styles.container]}>
-                <Text style={[styles.text]}>电影页</Text>
-                <Text style={styles.iconStyle}>&#xe677;</Text>
-                <Text style={styles.iconStyle}>&#xe67d;</Text>
-                {/*<VideoPlyer/>*/}
+                <Text style={[styles.text]}>电影列表页</Text>
                 <ListView dataSource={this.state.dataSource}
                           enableEmptySections={true}
                           renderRow={this.renderRow.bind(this)}/>
@@ -62,8 +47,8 @@ export default class MoviesPage extends Component{
 
     renderRow(rowData){
         return (
-            <TouchableOpacity onPress={()=>Alert.alert(rowData)}>
-                <Text>{rowData}</Text>
+            <TouchableOpacity onPress={()=>Alert.alert(rowData.url)}>
+                <Text>{rowData.name}</Text>
             </TouchableOpacity>
         );
     }

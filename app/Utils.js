@@ -50,6 +50,18 @@ Utils.postFetch = function (url, body, successCallback, errorCallback) {
 
 };
 
+export function getCurrentRouteName(navigationState) {
+    if (!navigationState) {
+        return null;
+    }
+    const route = navigationState.routes[navigationState.index];
+    // dive into nested navigators
+    if (route.routes) {
+        return getCurrentRouteName(route);
+    }
+    return route.routeName;
+}
+
 export const ScreenWidth = Dimensions.get('window').width;
 
 export const ScreenHeight = Dimensions.get('window').height;
