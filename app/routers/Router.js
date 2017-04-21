@@ -6,13 +6,18 @@
 'use strict'
 
 
-import { StackNavigator, DrawerNavigator, TabNavigator, TabView } from 'react-navigation';
+import {StackNavigator, DrawerNavigator, TabNavigator, TabView} from 'react-navigation';
 
 import MoviesPage from 'MoviesPage';
 import MovieListPage from 'MovieListPage';
 // import VideoPage from 'VideoPage';
+import NotePage from 'NotePage';
+import JoinFamilyPage from 'JoinFamilyPage';
 
 export const MovieNavigator = StackNavigator({
+    JoinFamilyPage:{
+        screen: JoinFamilyPage
+    },
     MoviesPage: {
         screen: MoviesPage
     },
@@ -23,6 +28,19 @@ export const MovieNavigator = StackNavigator({
     //     screen: VideoPage
     // }
 }, {
-    initialRouteName: 'MoviesPage',
+    initialRouteName: 'JoinFamilyPage',
     headerMode: 'screen',
 });
+
+export const MainTabNavigator = TabNavigator({
+    NotePage: {
+        screen: NotePage
+    },
+    MovieNavigator: {
+        screen: MovieNavigator
+    },
+}, {
+    initialRouteName: 'NotePage',
+    headerMode: 'screen',
+});
+

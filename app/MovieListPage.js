@@ -11,11 +11,26 @@ import {
     ListView,
     StyleSheet,
     TouchableOpacity,
-    Alert
+    Button
 }from 'react-native';
 import * as Utils from 'Utils';
 
 export default class MovieListPage extends Component{
+    static navigationOptions = {
+        title: ({ state }) => state.params.title,
+        // 重写导航的头
+        header: (navigation) => {
+            const tintColor = '#333333';
+            const left = (<Button onPress={() => navigation.goBack()} title='back'/>);
+            const titleStyle = {
+                fontSize: 16,
+                fontWeight: 'normal'
+            };
+            const style = { backgroundColor: 'white' };
+            return { tintColor, left, titleStyle, style };
+        }
+    }
+
     constructor(props){
         super(props);
         let ds = new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2});
@@ -25,7 +40,7 @@ export default class MovieListPage extends Component{
     }
 
     componentDidMount(){
-        Utils.Utils.postFetch('http://192.168.1.23:4096/api/movie/get_movie_list',{movie_name:'movies'},(success)=>{
+        Utils.Utils.postFetch(global.family_url+'movie/get_movie_list',{movie_name:this.props.navigation.state.params.movie},(success)=>{
             this.setState(prevState => ({
                 dataSource: prevState.dataSource.cloneWithRows(success.msg)
             }));
@@ -47,7 +62,7 @@ export default class MovieListPage extends Component{
 
     renderRow(rowData){
         return (
-            <TouchableOpacity onPress={()=>Alert.alert(rowData.url)}>
+            <TouchableOpacity onPress={()=>global.RootNavigator.goBack(null)}>
                 <Text>{rowData.name}</Text>
             </TouchableOpacity>
         );

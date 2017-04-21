@@ -17,10 +17,7 @@ import {
 import NavigationPage from 'NavigationPage';
 import NetInfoPage from 'NetInfoPage';
 import NotePage from 'NotePage';
-import JoinFamilyPage from 'JoinFamilyPage';
-import MovieListPage from 'MovieListPage';
 import { StackNavigator } from 'react-navigation';
-import VideoTest from 'VideoTest';
 import * as Utils from 'Utils';
 
 const RootTabNavigator = StackNavigator({
@@ -30,7 +27,8 @@ const RootTabNavigator = StackNavigator({
 })
 
 import {
-    MovieNavigator
+    MovieNavigator,
+    MainTabNavigator
 } from 'Router';
 
 export default class RootPage extends Component{
@@ -38,10 +36,16 @@ export default class RootPage extends Component{
         super(props);
     }
 
+    componentDidMount(){
+        if (this.navigator) {
+            global.RootNavigator = this.navigator._navigation
+        }
+    }
+
     render(){
         return(
             // <NotePage/>
-            <MovieNavigator ref={navigator => this.navigator = navigator}
+            <MainTabNavigator ref={navigator => this.navigator = navigator}
                            onNavigationStateChange={(prevState, currentState) => {
                                const currentScreen = Utils.getCurrentRouteName(currentState);
                                const prevScreen = Utils.getCurrentRouteName(prevState);
@@ -64,11 +68,6 @@ export default class RootPage extends Component{
                                        {/*break;*/}
                                {/*}*/}
                            }} />
-            // {/*<RootTabNavigator/>*/}
-            // <View style={[styles.container]}>
-            //     {/*<NavigationPage/>*/}
-            //
-            // </View>
         );
     }
 }

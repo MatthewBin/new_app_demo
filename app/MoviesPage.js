@@ -23,7 +23,7 @@ export default class MoviesPage extends Component{
     static navigationOptions = {
         title: '电影页',
         header: {
-            visible: true,
+            visible: false,
         },
     }
 
@@ -37,7 +37,7 @@ export default class MoviesPage extends Component{
 
     componentDidMount(){
         console.log('---')
-        Utils.Utils.postFetch('http://192.168.1.23:4096/api/movie/get_list',{},(success)=>{
+        Utils.Utils.postFetch(global.family_url+'movie/get_list',{},(success)=>{
             this.setState(prevState => ({
                 dataSource: prevState.dataSource.cloneWithRows(success.msg)
             }));
@@ -52,7 +52,7 @@ export default class MoviesPage extends Component{
                 <Text style={[styles.text]}>电影页</Text>
                 <Text style={styles.iconStyle}>&#xe677;</Text>
                 <Text style={styles.iconStyle}>&#xe67d;</Text>
-                {/*<VideoPlyer/>*/}
+
                 <ListView dataSource={this.state.dataSource}
                           enableEmptySections={true}
                           renderRow={this.renderRow.bind(this)}/>
@@ -62,7 +62,7 @@ export default class MoviesPage extends Component{
 
     renderRow(rowData){
         return (
-            <TouchableOpacity onPress={()=>Alert.alert(rowData)}>
+            <TouchableOpacity onPress={()=>global.RootNavigator.navigate('MovieListPage',{title:rowData,movie:rowData})}>
                 <Text>{rowData}</Text>
             </TouchableOpacity>
         );

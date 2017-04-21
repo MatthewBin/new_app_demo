@@ -35,6 +35,13 @@ const ips = [
 ];
 
 export default class JoinFamilyPage extends Component{
+    static navigationOptions = {
+        title: '网络连接',
+        header: {
+            visible: false,
+        },
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -100,6 +107,7 @@ export default class JoinFamilyPage extends Component{
                 connect_log: '成功!'
             });
             global.family_url = 'http://'+ips[index] + ':4096/api/';
+            global.RootNavigator.navigate('MoviesPage');
         },(err)=>{
             this.tryConnetServer((++index)%ips.length);
         });
