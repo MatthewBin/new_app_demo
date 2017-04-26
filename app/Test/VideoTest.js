@@ -27,7 +27,7 @@ export default class VideoTest extends Component {
             manual: false,
             manual_value: 0,
             paused: false,
-            source:{uri: 'http://192.168.1.23:4096/movies/1.mp4'}
+            source:{uri: 'http://192.168.1.23:4096/api/demo'}
         };
     }
 

@@ -15,11 +15,11 @@ import {
     Button,
     StyleSheet,
     ToastAndroid,
-    ListView,
-    Keyboard
+    ListView
 }from 'react-native';
 
 import {NumberTextInput} from 'NumberTextInput';
+
 
 export default class NotePage extends Component {
     constructor(props) {

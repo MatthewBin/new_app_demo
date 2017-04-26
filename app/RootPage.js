@@ -11,17 +11,21 @@ import React, {Component}from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Keyboard,
+    Platform,
+    BackAndroid,
+    ToastAndroid
 }from 'react-native';
 
 import NavigationPage from 'NavigationPage';
 import NetInfoPage from 'NetInfoPage';
 import NotePage from 'NotePage';
-import { StackNavigator } from 'react-navigation';
+import {StackNavigator} from 'react-navigation';
 import * as Utils from 'Utils';
 
 const RootTabNavigator = StackNavigator({
-    NavigationPage:{screen:NavigationPage},
+    NavigationPage: {screen: NavigationPage},
     Note: {screen: NotePage},
     NetInfo: {screen: NetInfoPage},
 })
@@ -30,44 +34,78 @@ import {
     MovieNavigator,
     MainTabNavigator
 } from 'Router';
+var canExitApp = false;
 
-export default class RootPage extends Component{
-    constructor(props){
+export default class RootPage extends Component {
+    constructor(props) {
         super(props);
     }
 
-    componentDidMount(){
+    componentWillMount() {
+        if (Platform.OS === 'android') {
+            BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
+        }
+    }
+
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid.bind(this));
+        }
+    }
+
+    componentDidMount() {
         if (this.navigator) {
             global.RootNavigator = this.navigator._navigation
         }
     }
 
-    render(){
-        return(
+    onBackAndroid() {
+        if (canExitApp) {
+            BackAndroid.exitApp();
+        } else {
+            canExitApp = true;
+            setTimeout(() => {
+                canExitApp = false;
+            }, 3000);
+            ToastAndroid.show('再按一次退出', ToastAndroid.SHORT);
+        }
+        return true;
+    }
+
+
+    render() {
+        return (
             // <NotePage/>
             <MainTabNavigator ref={navigator => this.navigator = navigator}
-                           onNavigationStateChange={(prevState, currentState) => {
-                               const currentScreen = Utils.getCurrentRouteName(currentState);
-                               const prevScreen = Utils.getCurrentRouteName(prevState);
+                              onNavigationStateChange={(prevState, currentState) => {
+                                  const currentScreen = Utils.getCurrentRouteName(currentState);
+                                  const prevScreen = Utils.getCurrentRouteName(prevState);
 
-                               console.log('-- name --')
-                               console.log(prevScreen)
-                               console.log(currentScreen)
-                               // global.reduxStore.dispatch(Actions.setScreenName('MainNavigator', currentScreen));
-                               // switch (currentScreen) {
-                               //     case 'VideoPage':
-                               //         StatusBar.setBarStyle('light-content', true);
-                               //         break;
-                               //     case 'VideoTestPage':
-                               //         StatusBar.setBarStyle('light-content', true);
-                               //         break;
-                                   {/*case 'HomePage':*/}
-                                       {/*break;*/}
-                                   {/*default:*/}
-                                       {/*StatusBar.setBarStyle('default', true);*/}
-                                       {/*break;*/}
-                               {/*}*/}
-                           }} />
+                                  global.currentScrern = currentScreen;
+                                  {/*console.log('-- name --')*/}
+                                  {/*console.log(prevScreen)*/}
+                                  {/*console.log(currentScreen)*/}
+                                  // global.reduxStore.dispatch(Actions.setScreenName('MainNavigator', currentScreen));
+                                  // switch (currentScreen) {
+                                  //     case 'VideoPage':
+                                  //         StatusBar.setBarStyle('light-content', true);
+                                  //         break;
+                                  //     case 'VideoTestPage':
+                                  //         StatusBar.setBarStyle('light-content', true);
+                                  //         break;
+                                  {/*case 'HomePage':*/
+                                  }
+                                  {/*break;*/
+                                  }
+                                  {/*default:*/
+                                  }
+                                  {/*StatusBar.setBarStyle('default', true);*/
+                                  }
+                                  {/*break;*/
+                                  }
+                                  {/*}*/
+                                  }
+                              }}/>
         );
     }
 }

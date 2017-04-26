@@ -15,9 +15,6 @@ import NotePage from 'NotePage';
 import JoinFamilyPage from 'JoinFamilyPage';
 
 export const MovieNavigator = StackNavigator({
-    JoinFamilyPage:{
-        screen: JoinFamilyPage
-    },
     MoviesPage: {
         screen: MoviesPage
     },
@@ -28,7 +25,7 @@ export const MovieNavigator = StackNavigator({
     //     screen: VideoPage
     // }
 }, {
-    initialRouteName: 'JoinFamilyPage',
+    initialRouteName: 'MoviesPage',
     headerMode: 'screen',
 });
 
@@ -39,7 +36,11 @@ export const MainTabNavigator = TabNavigator({
     MovieNavigator: {
         screen: MovieNavigator
     },
+    JoinFamilyPage: {
+        screen: JoinFamilyPage
+    },
 }, {
+    ...TabNavigator.Presets.iOSBottomTabs,
     initialRouteName: 'NotePage',
     headerMode: 'screen',
 });
