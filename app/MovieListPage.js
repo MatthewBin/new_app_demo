@@ -11,7 +11,8 @@ import {
     ListView,
     StyleSheet,
     TouchableOpacity,
-    Button
+    Button,
+    ToastAndroid
 }from 'react-native';
 import * as Utils from 'Utils';
 
@@ -43,7 +44,10 @@ export default class MovieListPage extends Component {
     }
 
     componentDidMount() {
-        Utils.Utils.postFetch(global.family_url + 'movie/get_movie_list', {movie_name: this.props.navigation.state.params.movie}, (success) => {
+        Utils.Utils.postFetch(global.family_url + 'movie/get_movie_list', {
+            movie_name: this.props.navigation.state.params.movie,
+            dynimic_root_path:global.family_url
+        }, (success) => {
             this.setState(prevState => ({
                 dataSource: prevState.dataSource.cloneWithRows(success.msg)
             }));
@@ -66,9 +70,12 @@ export default class MovieListPage extends Component {
     }
 
     renderRow(rowData) {
+        console.log(rowData)
         return (
             <TouchableOpacity style={[styles.movie_list_item]}
-                              onPress={() => global.RootNavigator.goBack(null)}>
+                              onPress={()=>global.RootNavigator.navigate('PlayerPage',{title:rowData.name,url:rowData.url})}
+                              //onPress={() => global.RootNavigator.goBack(null)}
+            >
                 <Text style={[styles.iconStyle,{marginLeft:20}]}>&#xe605;</Text>
                 <Text style={styles.text}>{rowData.name}</Text>
             </TouchableOpacity>

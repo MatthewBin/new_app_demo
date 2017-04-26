@@ -10,7 +10,7 @@ import {StackNavigator, DrawerNavigator, TabNavigator, TabView} from 'react-navi
 
 import MoviesPage from 'MoviesPage';
 import MovieListPage from 'MovieListPage';
-// import VideoPage from 'VideoPage';
+import PlayerPage from 'PlayerPage';
 import NotePage from 'NotePage';
 import JoinFamilyPage from 'JoinFamilyPage';
 
@@ -21,9 +21,9 @@ export const MovieNavigator = StackNavigator({
     MovieListPage: {
         screen: MovieListPage
     },
-    // VideoPage: {
-    //     screen: VideoPage
-    // }
+    PlayerPage: {
+        screen: PlayerPage
+    }
 }, {
     initialRouteName: 'MoviesPage',
     headerMode: 'screen',

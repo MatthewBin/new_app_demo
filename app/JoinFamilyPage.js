@@ -21,8 +21,8 @@ import * as Utils from 'Utils';
 const ips = [
     // '192.168.1.100',
     // '192.168.1.101',
-    // '192.168.1.102',
-    // '192.168.1.103',
+    '192.168.1.102',
+    '192.168.1.103',
     '192.168.1.104',
     '192.168.1.24',
     '192.168.1.23',
@@ -107,6 +107,7 @@ export default class JoinFamilyPage extends Component{
                 connect_log: '成功!'
             });
             global.family_url = 'http://'+ips[index] + ':4096/api/';
+            global.RootNavigator.navigate('MoviesPage');
         },(err)=>{
             this.tryConnetServer((++index)%ips.length);
         });

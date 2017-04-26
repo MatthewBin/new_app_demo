@@ -1,6 +1,6 @@
 /**
- * Created by maxiaobin on 17/3/28.
- * @providesModule VideoTest
+ * Created by Administrator on 2017/4/23.
+ * @providesModule PlayerPage
  */
 'use strict'
 
@@ -11,13 +11,31 @@ import {
     StyleSheet,
     Button,
     TouchableWithoutFeedback,
-    Alert,
     Slider
 }from 'react-native';
 import Video from 'react-native-video';
 import {ScreenWidth, ScreenHeight} from 'Utils';
 import Orientation from 'react-native-orientation';
-export default class VideoTest extends Component {
+export default class PlayerPage extends Component {
+    static navigationOptions = {
+        title: ({ state }) => state.params.title,
+        // 重写导航的头
+        header: (navigation) => {
+            const tintColor = '#333333';
+            const left = (<Button onPress={() => navigation.goBack()} title='back'/>);
+            const titleStyle = {
+                fontSize: 16,
+                fontWeight: 'normal'
+            };
+            const style = { backgroundColor: 'white' };
+            return { tintColor, left, titleStyle, style };
+        }
+    }
+
+    componentDidMount(){
+        console.log(this.props.navigation)
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +45,7 @@ export default class VideoTest extends Component {
             manual: false,
             manual_value: 0,
             paused: false,
-            source:{uri: 'http://192.168.1.103:4096/a_test/妈妈生日.mp4'}
+            source:{uri:this.props.navigation.state.params.url}
         };
     }
 
@@ -142,10 +160,10 @@ export default class VideoTest extends Component {
     }
 
     loadStart(msg) {
-        console.log('loadStart');
-        console.log(ScreenWidth)
-        console.log(ScreenHeight)
-        console.log(msg);
+        // console.log('loadStart');
+        // console.log(ScreenWidth)
+        // console.log(ScreenHeight)
+        // console.log(msg);
     }
 
     setDuration(msg) {
