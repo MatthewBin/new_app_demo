@@ -21,22 +21,26 @@ import * as Utils from 'Utils';
 const ips = [
     // '192.168.1.100',
     // '192.168.1.101',
-    '192.168.1.102',
-    '192.168.1.103',
-    '192.168.1.104',
-    '192.168.1.24',
+    // '192.168.1.102',
+    // '192.168.1.103',
+    // '192.168.1.104',
+    // '192.168.1.24',
     '192.168.1.23',
-    '192.168.1.105',
-    '192.168.1.106',
-    '192.168.1.107',
-    '192.168.1.108',
-    '192.168.1.109',
-    '192.168.1.110'
+    // '192.168.1.105',
+    // '192.168.1.106',
+    // '192.168.1.107',
+    // '192.168.1.108',
+    // '192.168.1.109',
+    // '192.168.1.110'
 ];
 
 export default class JoinFamilyPage extends Component{
     static navigationOptions = {
-        title: '网络连接',
+        tabBar:{
+            label: '网络连接',
+            icon: ({ tintColor }) => (
+                <Text style={[styles.iconStyle,{color:tintColor,fontSize:25}]}>&#xe71c;</Text>),
+        },
         header: {
             visible: false,
         },
@@ -164,5 +168,10 @@ const styles = StyleSheet.create({
     text2:{
         fontSize:18,
         color:'#61B2A7',
+    },
+    iconStyle: {
+        color: '#fff',
+        fontFamily: 'iconfont',
+        fontSize: 50
     }
 });

@@ -19,7 +19,11 @@ import * as Utils from 'Utils';
 
 export default class MoviesPage extends Component {
     static navigationOptions = {
-        title: '电影',
+        tabBar:{
+            label: '电影',
+            icon: ({ tintColor }) => (
+                <Text style={[styles.iconStyle,{color:tintColor,fontSize:20}]}>&#xe606;</Text>),
+        },
         header: {
             visible: false,
         },
@@ -97,7 +101,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize:30,
-        color: '#fff',
+        color: '#666',
         marginLeft:40
     },
     iconStyle: {

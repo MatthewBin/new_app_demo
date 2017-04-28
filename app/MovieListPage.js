@@ -18,7 +18,15 @@ import * as Utils from 'Utils';
 
 export default class MovieListPage extends Component {
     static navigationOptions = {
-        title: ({state}) => state.params.title,
+        tabBar:{
+            label: '电影',
+            // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+            icon: ({ tintColor }) => (
+                <Text style={[styles.iconStyle,{color:tintColor,fontSize:20}]}>&#xe606;</Text>),
+        },
+
+        title:"电影",
+        // title: ({state}) => state.params.title,
         // // 重写导航的头
         // header: (navigation) => {
         //     const tintColor = '#333333';
@@ -70,7 +78,6 @@ export default class MovieListPage extends Component {
     }
 
     renderRow(rowData) {
-        console.log(rowData)
         return (
             <TouchableOpacity style={[styles.movie_list_item]}
                               onPress={()=>global.RootNavigator.navigate('PlayerPage',{title:rowData.name,url:rowData.url})}
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-        color: '#fff',
+        color: '#666',
         marginLeft: 40
     },
     iconStyle: {

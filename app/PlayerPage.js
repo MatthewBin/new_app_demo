@@ -18,22 +18,21 @@ import {ScreenWidth, ScreenHeight} from 'Utils';
 import Orientation from 'react-native-orientation';
 export default class PlayerPage extends Component {
     static navigationOptions = {
-        title: ({ state }) => state.params.title,
-        // 重写导航的头
-        header: (navigation) => {
-            const tintColor = '#333333';
-            const left = (<Button onPress={() => navigation.goBack()} title='back'/>);
-            const titleStyle = {
-                fontSize: 16,
-                fontWeight: 'normal'
-            };
-            const style = { backgroundColor: 'white' };
-            return { tintColor, left, titleStyle, style };
+        title: "视频",
+        // // 重写导航的头
+        // header: (navigation) => {
+        //     const tintColor = '#333333';
+        //     const left = (<Button onPress={() => navigation.goBack()} title='back'/>);
+        //     const titleStyle = {
+        //         fontSize: 16,
+        //         fontWeight: 'normal'
+        //     };
+        //     const style = { backgroundColor: 'white' };
+        //     return { tintColor, left, titleStyle, style };
+        // }
+        header:{
+            visible:false
         }
-    }
-
-    componentDidMount(){
-        console.log(this.props.navigation)
     }
 
     constructor(props) {
@@ -50,8 +49,19 @@ export default class PlayerPage extends Component {
     }
 
     componentWillMount() {
-        // //只允许横屏
-        // Orientation.lockToLandscapeLeft();
+        console.log(global.RootNavigator)
+        // 隐藏 TabNavigator_Header
+        global.RootNavigator.setParams({header_visible:false});
+        // 只允许横屏
+        Orientation.lockToLandscapeLeft();
+    }
+
+    componentWillUnmount() {
+        // 显示 TabNavigator_Header
+        global.RootNavigator.setParams({header_visible:true});
+
+        // 只允许竖屏
+        Orientation.lockToPortrait();
     }
 
     componentDidMount() {
@@ -130,7 +140,6 @@ export default class PlayerPage extends Component {
                                 onSlidingComplete={this.slidingComplate.bind(this)}/>
                         <Text style={[styles.text, {marginRight: 3}]}>{this.second_to_str(this.state.total_time)}</Text>
                     </View>
-                    <Button title='back' onPress={()=>{}}/>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                         {
                             this.state.paused ?

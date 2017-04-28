@@ -22,6 +22,19 @@ import {NumberTextInput} from 'NumberTextInput';
 
 
 export default class NotePage extends Component {
+    static navigationOptions = {
+        tabBar:{
+            label: '小黄车',
+            icon: ({ tintColor }) => (
+                <Text style={[styles.iconStyle,{color:tintColor,fontSize:30}]}>&#xe6bf;</Text>),
+        },
+
+        title:"小黄车",
+        header: {
+            visible: false,
+        },
+    }
+
     constructor(props) {
         super(props);
         this.state = {txt: '默认值'};
@@ -199,5 +212,10 @@ const styles = StyleSheet.create({
         marginHorizontal:9,
         textAlign:'left',
         color:'#eee'
+    },
+    iconStyle: {
+        color: '#fff',
+        fontFamily: 'iconfont',
+        fontSize: 50
     }
 });

@@ -18,21 +18,10 @@ import {
     ToastAndroid
 }from 'react-native';
 
-import NavigationPage from 'NavigationPage';
-import NetInfoPage from 'NetInfoPage';
-import NotePage from 'NotePage';
-import {StackNavigator} from 'react-navigation';
 import * as Utils from 'Utils';
 
-const RootTabNavigator = StackNavigator({
-    NavigationPage: {screen: NavigationPage},
-    Note: {screen: NotePage},
-    NetInfo: {screen: NetInfoPage},
-})
-
 import {
-    MovieNavigator,
-    MainTabNavigator
+    FuckNavigator
 } from 'Router';
 var canExitApp = false;
 
@@ -55,11 +44,12 @@ export default class RootPage extends Component {
 
     componentDidMount() {
         if (this.navigator) {
-            global.RootNavigator = this.navigator._navigation
+            global.RootNavigator = this.navigator._navigation;
         }
     }
 
     onBackAndroid() {
+        console.log('--- back ---')
         if (canExitApp) {
             BackAndroid.exitApp();
         } else {
@@ -76,7 +66,7 @@ export default class RootPage extends Component {
     render() {
         return (
             // <NotePage/>
-            <MainTabNavigator ref={navigator => this.navigator = navigator}
+            <FuckNavigator ref={navigator => this.navigator = navigator}
                               onNavigationStateChange={(prevState, currentState) => {
                                   const currentScreen = Utils.getCurrentRouteName(currentState);
                                   const prevScreen = Utils.getCurrentRouteName(prevState);
@@ -109,12 +99,3 @@ export default class RootPage extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#052',
-    },
-});

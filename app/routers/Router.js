@@ -14,15 +14,13 @@ import PlayerPage from 'PlayerPage';
 import NotePage from 'NotePage';
 import JoinFamilyPage from 'JoinFamilyPage';
 
+
 export const MovieNavigator = StackNavigator({
     MoviesPage: {
         screen: MoviesPage
     },
     MovieListPage: {
         screen: MovieListPage
-    },
-    PlayerPage: {
-        screen: PlayerPage
     }
 }, {
     initialRouteName: 'MoviesPage',
@@ -42,6 +40,24 @@ export const MainTabNavigator = TabNavigator({
 }, {
     ...TabNavigator.Presets.iOSBottomTabs,
     initialRouteName: 'NotePage',
+    headerMode: 'screen',
+    tabBarOptions:{
+        activeTintColor:'#fc0',
+        activeBackgroundColor:'#000',
+        inactiveTintColor:'#fff',
+        inactiveBackgroundColor:'#000',
+    }
+});
+
+export const FuckNavigator = StackNavigator({
+    MainTabNavigator: {
+        screen: MainTabNavigator
+    },
+    PlayerPage: {
+        screen: PlayerPage
+    }
+}, {
+    initialRouteName: 'MainTabNavigator',
     headerMode: 'screen',
 });
 
